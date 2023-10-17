@@ -10,10 +10,17 @@ namespace CustomThreadPool
         private readonly Func<TResult, TNewResult> task;
         private readonly IMyTask<TResult> parentTask;
         private readonly MyThreadPool threadPool;
-        public bool IsCompleted 
-        { 
-            get; 
-            private set; 
+        private volatile bool isCompleted;
+        public bool IsCompleted
+        {
+            get
+            {
+                return isCompleted;
+            }
+            private set
+            {
+                isCompleted = value;
+            }
         }
 
         public ContinuedTask(Func<TResult, TNewResult> func, IMyTask<TResult> parentTask, MyThreadPool threadPool)
@@ -22,6 +29,7 @@ namespace CustomThreadPool
             this.parentTask = parentTask;
             result = default;
             this.threadPool = threadPool;
+            isCompleted = false;
         }
 
         public IMyTask<TNewResultContinue> ContinueWith<TNewResultContinue>(Func<TNewResult, TNewResultContinue> map)

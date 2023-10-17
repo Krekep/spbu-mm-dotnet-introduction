@@ -8,11 +8,18 @@ namespace CustomThreadPool
         private TResult? result;
         private (AggregateException ex, bool isThrow) exception;
         private readonly Func<TResult> task;
-        private readonly MyThreadPool threadPool;
+        private readonly MyThreadPool threadPool; 
+        private volatile bool isCompleted;
         public bool IsCompleted
         {
-            get;
-            private set;
+            get
+            {
+                return isCompleted;
+            }
+            private set
+            {
+                isCompleted = value;
+            }
         }
 
         public MyTask(Func<TResult> func, MyThreadPool threadPool)
@@ -21,6 +28,7 @@ namespace CustomThreadPool
             result = default;
             this.threadPool = threadPool;
             exception = (new AggregateException(), false);
+            IsCompleted = false;
         }
 
         public IMyTask<TNewResult> ContinueWith<TNewResult>(Func<TResult, TNewResult> map)
