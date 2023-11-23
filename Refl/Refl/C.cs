@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Refl
 {
-    internal class C
+    public class C
     {
         public int MyInt { get; set; }
         public string MyStr { get; set; }

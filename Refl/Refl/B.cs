@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Refl
 {
-    internal class B
+    public class B
     {
         public B? ChildB { get; set; }
         public C ChildC { get; set; }
